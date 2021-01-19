@@ -27,18 +27,21 @@ def animate(i):
     #print(response.json())
     if response.status_code == 200:
         data = response.json()
+        with open(directory+"oi.txt", "w") as outfile:
+            json.dump(data, outfile)
         df = json_normalize(data['records'])
         timestamp = df['timestamp']
-        print(timestamp)
-        
+        stockprice = df['underlyingValue']
         # df1 = pd.DataFrame(df.iloc[:, 1])
         # df2 = pd.DataFrame(df1.iloc[0][0])
         # print(df2)
         ce_data = json_normalize(data=data['records'], record_path='data')
         timelist = [timestamp[0]] * len(ce_data)
+        stockpricelist = [stockprice[0]] * len(ce_data)
 
         df123 = ce_data
         df123['timestamp'] = timelist
+        df123['stockprice'] = stockpricelist
         df123 = df123.set_index(['timestamp'])
         #ce_data.insert(0, 'TimeStamp', pd.to_datetime(timestamp))
         #print(df123)
