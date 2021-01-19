@@ -11,7 +11,7 @@ import time
 plt.style.use('fivethirtyeight')
 session = requests.Session()
 
-directory = r"C:\\stk\\"
+directory = r"C:\\stocks\\"
 
 url = "https://www.nseindia.com/api/option-chain-equities?symbol=BAJFINANCE"
 headers = {'Host': 'www.nseindia.com', 'Connection': 'keep-alive', 'sec-ch-ua-mobile': '?0', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36', 'Accept': '*/*', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Dest': 'empty', 'Referer': 'https://www.nseindia.com/option-chain', 'Accept-Encoding': 'gzip, deflate, br', 'Accept-Language': 'en-US,en;q=0.9'}
@@ -30,11 +30,12 @@ def animate(i):
         df = json_normalize(data['records'])
         timestamp = df['timestamp']
         print(timestamp)
-        timelist = [timestamp[0]] * 66
+        
         # df1 = pd.DataFrame(df.iloc[:, 1])
         # df2 = pd.DataFrame(df1.iloc[0][0])
         # print(df2)
         ce_data = json_normalize(data=data['records'], record_path='data')
+        timelist = [timestamp[0]] * len(ce_data)
 
         df123 = ce_data
         df123['timestamp'] = timelist
